@@ -258,7 +258,7 @@ const J = [
       ]}
     ],
     obs:[
-      ['Huit étapes, dont trois automatiques',"L'acheteur n'en accomplit que cinq. Le reste — vérification du paiement, empreinte, facture — se fait sans lui."],
+      ['Sept étapes, dont trois automatiques',"L'acheteur n'en accomplit que quatre. Le reste — vérification du paiement, mise à disposition, reçu — se fait sans lui."],
       ['La séquence à ne pas inverser',"Vérification serveur à serveur avant mise à disposition. Livrer d'abord et vérifier ensuite, c'est offrir le fichier à qui abandonne le paiement."]
     ]
   },
@@ -268,26 +268,30 @@ const J = [
     flow:[
       {s:'Publication d\'une demande', ico:'📢', d:"Gratuit. La demande décrit le besoin, le gouvernorat et le budget approximatif.", start:true},
       {t:"des makers la consultent"},
-      {s:'Discussion dans la messagerie', ico:'💬', d:"Tout l'échange reste sur la plateforme et y est conservé.",
-       tags:['legal'], note:"Point de contrôle : cette conversation servira de référence si un litige survient."},
+      {s:'Discussion dans la messagerie', ico:'💬', d:"Plusieurs makers peuvent répondre : autant de conversations et d'offres menées en parallèle. Tout l'échange reste sur la plateforme et y est conservé.",
+       tags:['legal'], note:"Le maker n'est choisi qu'au moment du paiement : c'est le bouton de paiement qui tranche."},
       {t:"le besoin est cerné"},
       {s:'Réception d\'une offre à prix fixe', ico:'📝', d:"Le maker chiffre : description, images, matériau, dimensions, délai, prix. Le délai ne peut dépasser 90 jours ou 12 semaines.",
        tags:['contrat']},
       {t:"l'acheteur accepte"},
-      {s:'Gel de l\'offre', ico:'🔐', d:"À l'acceptation, l'offre devient non modifiable et est horodatée. C'est la pièce d'arbitrage.",
+      {s:'Gel de l\'offre et contrat', ico:'🔐', d:"À l'acceptation, l'offre devient non modifiable et est horodatée. Un contrat reprenant les droits de chacun est établi et envoyé automatiquement aux deux parties.",
        tags:['contrat','secu','auto'], note:"Sans ce gel, un maker pourrait modifier son annonce après coup et l'arbitrage n'aurait plus de référence."},
       {t:"offre figée"},
       {s:'Paiement intégral sur la plateforme', ico:'💳', d:"100 % du prix. C'est ce qui rend la garantie possible : l'argent est détenu jusqu'à la validation.",
        tags:['banque','fisc']},
       {t:"paiement confirmé"},
-      {s:'Production', ico:'🖨️', d:"Le maker fabrique. La somme reste détenue par la plateforme, 90 jours au maximum.",
-       tags:['fisc']},
+      {s:'Production', ico:'🖨️', d:"Le maker fabrique et rend compte de son avancement dans la messagerie. La somme reste détenue par la plateforme, 90 jours au maximum.",
+       tags:['fisc'], note:"Les échanges d'avancement font partie de la conversation conservée : ils servent aussi de preuve."},
       {t:"pièce prête"},
-      {s:'Livraison', ico:'🚚', d:"Assurée par le maker. Le transport coûte 8 DT partout en Tunisie, 48 h au maximum, réglés directement au transporteur. Le retrait sur place est gratuit.",
-       tags:['fisc'], note:"La plateforme n'encaisse pas le transport : ni TVA à traiter, ni remboursement à gérer dessus."},
-      {t:"livraison confirmée — départ du délai"},
-      {s:'Validation par l\'acheteur', ico:'✅', d:"Trois jours pour valider ou réclamer, avec deux relances. Sans réponse, la commande est validée d'office.",
-       tags:['auto','contrat']},
+      {s:'Remise au demandeur', ico:'📦', d:"Un custom gig n'est pas forcément un objet : ce peut être un fichier 3D ou un STL. La remise diffère selon la nature du travail.",
+       tags:['fisc'], note:"La plateforme n'encaisse jamais le transport : ni TVA à traiter, ni remboursement à gérer dessus."},
+      {or:'Selon la nature du gig', branches:[
+        {c:"le livrable est un fichier", o:"Dépôt sur la plateforme", d:"Le maker dépose le fichier par un bouton dédié qui gèle immédiatement le temps de production. Un e-mail avertit le demandeur que le fichier est consultable.", next:8},
+        {c:"le livrable est un objet imprimé", o:"Expédition ou retrait", d:"Transporteur — 8 DT partout en Tunisie, 48 h, réglés directement au transporteur — ou retrait sur place, gratuit. C'est le demandeur qui choisit.", next:8}
+      ]},
+      {t:"fichier déposé, ou livraison confirmée"},
+      {s:'Validation par l\'acheteur', ico:'✅', d:"Trois jours pour valider ou demander une correction, avec deux relances. Sans réponse, la commande est validée d'office. Si une correction est demandée, le maker est notifié et peut solliciter une rallonge de délai, que le demandeur doit approuver.",
+       tags:['auto','contrat'], note:"Le même délai de 3 jours s'applique au fichier déposé comme à l'objet livré."},
       {or:'À la validation', branches:[
         {c:"conforme", o:"Commande close", d:"Le montant dû est inscrit au tableau des ventes du maker. L'acheteur attribue une note sur 5, et le maker évalue l'acheteur en retour."},
         {c:"contestée", o:"Réclamation", d:"La validation automatique est suspendue et l'instruction commence.", go:"Réclamer un remboursement"}
@@ -303,11 +307,11 @@ const J = [
     id:'litige', ico:'⚖️', nm:'Réclamer un remboursement', who:'Client', n:'Réclamation, arbitrage, issues',
     lede:"Ce que la plateforme garantit, comment elle tranche, et qui supporte le remboursement dans chaque cas.",
     flow:[
-      {s:'Dépôt de la réclamation', ico:'📨', d:"Depuis l'espace client, avant l'expiration du délai de validation, avec photographies à l'appui.",
-       tags:['legal']},
+      {s:'Dépôt de la réclamation', ico:'📨', d:"Depuis l'espace client, avant l'expiration du délai de validation, avec photographies à l'appui. Le maker en est notifié immédiatement, et un administrateur est alerté pour suivre le dossier.",
+       tags:['legal'], note:"L'admin assiste dès l'ouverture et vérifie les demandes de chaque partie."},
       {t:"réclamation reçue"},
-      {s:'Suspension de la validation', ico:'⏸️', d:"La validation automatique s'arrête. L'argent reste détenu par la plateforme.",
-       tags:['auto','banque']},
+      {s:'Recherche d\'une solution', ico:'⏸️', d:"La validation automatique s'arrête et l'argent reste détenu. L'administrateur cherche d'abord si le maker peut corriger le problème, dans un délai que le demandeur doit approuver.",
+       tags:['auto','banque'], note:"La correction passe avant l'arbitrage."},
       {t:"le maker est informé"},
       {s:'Réponse du maker', ico:'💬', d:"Trois jours ouvrés pour répondre et produire ses justificatifs. Sans réponse, la réclamation est réputée fondée.",
        tags:['contrat']},
@@ -316,8 +320,8 @@ const J = [
         {c:"il maintient sa position, ou l'acheteur refuse le délai", o:"Arbitrage", d:"La plateforme compare la pièce livrée à l'offre gelée et à l'historique des échanges.", next:4}
       ]},
       {t:"instruction terminée"},
-      {s:'Décision motivée', ico:'⚖️', d:"Rendue sous cinq jours ouvrés. Chaque partie peut la contester une fois, dans les trois jours, en apportant un élément nouveau.",
-       tags:['legal','contrat']},
+      {s:'Décision motivée', ico:'⚖️', d:"Si aucune solution n'aboutit, l'administrateur prévient le maker et rembourse le demandeur — en totalité ou en partie, selon l'avancement réel du projet. Chaque partie peut contester une fois, sous trois jours, avec un élément nouveau.",
+       tags:['legal','contrat'], note:"La commission de 15 % n'est pas remboursable : elle rémunère l'encaissement, l'instruction et l'arbitrage."},
       {or:'Issues possibles', branches:[
         {c:"pièce conforme à l'offre", o:"Validée", d:"Le maker reçoit 85 %. L'acheteur peut attribuer une note sur 5 malgré son insatisfaction."},
         {c:"pièce non conforme", o:"85 % remboursés", d:"L'acheteur garde la pièce — aucun retour n'est organisé. Le maker ne reçoit rien. La plateforme conserve 15 % au titre du service rendu."},
@@ -377,8 +381,8 @@ const J = [
       {s:'Déclaration du statut', ico:'🏛️', d:"Auto-entrepreneur au statut Mubadarati, ou société. Le choix détermine le contrat et le régime de TVA.",
        tags:['fisc'], note:"Un auto-entrepreneur est immatriculé mais non assujetti à la TVA sous 75 000 DT. Matricule fiscal n'égale pas assujetti."},
       {t:"statut déclaré"},
-      {s:'Saisie du matricule fiscal', ico:'🧾', d:"Vérifié avant tout versement. Sans lui, aucune somme ne peut sortir du compte de la plateforme de façon justifiable.",
-       tags:['fisc','banque'], note:"Point de contrôle : c'est la pièce qui justifie la sortie d'argent en comptabilité."},
+      {s:'Saisie du matricule fiscal', ico:'🧾', d:"Sans matricule, le maker publie et vend normalement : rien n'est bloqué. Mais son montant dû s'affiche en rouge, marqué suspendu, avec un message clair — pas de virement possible tant que le matricule n'est pas enregistré.",
+       tags:['fisc','banque'], note:"On incite, on ne bloque pas la publication. C'est la pièce qui justifie la sortie d'argent en comptabilité."},
       {t:"matricule enregistré"},
       {s:'Acceptation du contrat', ico:'📄', d:"Le contrat correspondant au statut est présenté en ligne. La case cochée vaut engagement ; la version, la date, l'heure et l'identifiant sont conservés.",
        tags:['contrat','legal'], note:"C'est une preuve de consentement, pas une signature électronique certifiée — la nuance a été retenue volontairement."},
@@ -387,7 +391,7 @@ const J = [
        tags:['banque','secu'], note:"Point de contrôle : verser à un tiers ferait sortir la plateforme de son rôle d'intermédiaire."}
     ],
     obs:[
-      ['Deux étapes seulement pour publier',"Créer son compte, et publier. Le maker est actif immédiatement."],
+      ['Deux étapes seulement pour publier',"Créer son compte, et publier. Le maker est actif immédiatement — et le reste même sans matricule fiscal."],
       ['Quatre étapes de plus pour être payé',"Statut, matricule, contrat, coordonnées bancaires. Différées jusqu'au moment où elles servent — c'est ce qui évite de perdre les makers dès l'inscription."],
       ['Le bêta-testeur sans matricule',"Il peut tout faire sauf recevoir un versement. Soit la bêta est non rémunérée, soit une pièce justificative reste à définir avec le comptable.",'warn']
     ]
@@ -396,10 +400,10 @@ const J = [
     id:'maker-out', ico:'💸', nm:'Vendre et être payé', who:'Maker', n:'De la vente au virement',
     lede:"Ce que le maker voit dans son tableau des ventes, et le chemin de l'argent jusqu'à son compte bancaire.",
     flow:[
-      {s:'Mise en vente', ico:'🏷️', d:"Un fichier STL, un gig standard à prix affiché, ou une offre en réponse à une demande. Un gig expédié ne peut être proposé sous 20 DT.",
-       tags:['legal'], start:true},
+      {s:'Mise en vente', ico:'🏷️', d:"Un fichier STL, un gig standard à prix affiché, ou une offre en réponse à une demande. Le prix est libre, à partir de 1 DT.",
+       tags:['legal'], start:true, note:"Pas de montant minimum : la plateforme n'est pas dans la livraison, c'est le demandeur qui choisit l'expédition ou le retrait."},
       {t:"un acheteur commande et paie"},
-      {s:'Empreinte et journalisation', ico:'🔗', d:"Pour un fichier, l'empreinte SHA est calculée à l'envoi. Chaque vente et chaque téléchargement sont journalisés.",
+      {s:'Journalisation de la vente', ico:'📓', d:"Chaque vente et chaque téléchargement sont horodatés et conservés. L'empreinte du fichier, elle, a été calculée au moment du dépôt.",
        tags:['secu','auto']},
       {t:"prestation exécutée et livrée"},
       {s:'Validation de l\'acheteur', ico:'✅', d:"Expresse, ou automatique trois jours après la livraison.",
