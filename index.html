@@ -273,7 +273,7 @@ const J=[
   {s:"Réception d'une offre à prix fixe",ic:'📝',d:"Le maker chiffre : description, images, matériau, dimensions, délai, prix. Le délai ne peut dépasser 90 jours ou 12 semaines.",tag:['contrat'],n:"",tt:"le besoin est cerné"},
   {s:"Gel de l'offre et contrat",ic:'🔐',d:"À l'acceptation, l'offre devient non modifiable et est horodatée. Un contrat reprenant les droits de chacun est établi et envoyé automatiquement au maker et au demandeur.",tag:['contrat','secu','auto'],n:"Sans ce gel, un maker pourrait modifier son annonce après coup et l'arbitrage n'aurait plus de référence.",tt:"l'acheteur accepte"},
   {s:"Paiement intégral sur la plateforme",ic:'💳',d:"100 % du prix. C'est ce qui rend la garantie possible : l'argent est détenu jusqu'à la validation.",tag:['banque','fisc'],n:"",tt:"offre figée"},
-  {s:"Production",ic:'🖨️',d:"Le maker fabrique et rend compte de son avancement dans la messagerie. La somme reste détenue par la plateforme, 90 jours au maximum.",tag:['fisc'],n:"Les échanges d'avancement font partie de la conversation conservée : ils servent aussi de preuve en cas de litige.",tt:"paiement confirmé"},
+  {s:"Production",ic:'🖨️',d:"Le maker fabrique et rend compte de son avancement dans la messagerie. Il répond aux messages du demandeur sous 48 h — au-delà, un signal d'inactivité s'affiche dans la conversation et des points de confiance lui sont retirés. La somme reste détenue, 90 jours au maximum.",tag:['fisc','contrat'],n:"Ce sont ces échanges, et eux seuls, qui prouveront que le travail a commencé : la négociation d'avant le paiement ne compte pas.",tt:"paiement confirmé"},
   {s:"Remise au demandeur",ic:'📦',d:"Un custom gig n'est pas forcément un objet : ce peut être un fichier 3D ou un STL. La remise diffère selon la nature du travail.",tag:['fisc'],n:"La plateforme n'encaisse jamais le transport : ni TVA à traiter, ni remboursement à gérer dessus.",tt:"travail terminé"},
   {s:"Validation par l'acheteur",ic:'✅',d:"Trois jours pour valider ou demander une correction, avec deux relances. Sans réponse, la commande est validée d'office. Si une correction est demandée, le maker est notifié et peut solliciter une rallonge de délai — que le demandeur doit approuver.",tag:['auto','contrat'],n:"Le même délai de 3 jours s'applique qu'il s'agisse d'un fichier déposé ou d'un objet livré.",tt:"fichier déposé, ou livraison confirmée"}],
   branches:[
@@ -297,7 +297,7 @@ const J=[
    {after:3,title:"Issues possibles",items:[
     {c:"pièce conforme à l'offre",o:"Validée",d:"Le maker reçoit 85 %. L'acheteur peut attribuer une note sur 5 malgré son insatisfaction."},
     {c:"pièce non conforme",o:"85 % remboursés",d:"L'acheteur garde la pièce — aucun retour n'est organisé. Le maker ne reçoit rien. La plateforme conserve 15 % au titre du service rendu."},
-    {c:"rien n'a été livré",o:"100 % remboursés",d:"Aucun service rendu : la plateforme ne conserve rien."},
+    {c:"aucun échange après le paiement, rien n'a commencé",o:"100 % remboursés",d:"Aucun service rendu : la plateforme ne conserve rien, commission comprise, et recommande un autre maker au demandeur."},
     {c:"double paiement, incident réseau",o:"100 % remboursés",d:"La solution de paiement de La Poste permet au marchand de rembourser lui-même."}]}]},
 
  {id:'litige-stl',ic:'📮',nm:'Réclamation sur un fichier',wo:'Client',color:'#8a3fb5',steps:[
@@ -333,7 +333,7 @@ const J=[
   {s:"Demande de virement",ic:'🖐️',d:"À l'initiative du vendeur, jamais automatique. Deux demandes par mois au maximum, espacées de 15 jours, à partir de 50 DT cumulés.",tag:['banque'],n:"Le délai de 7 jours couvre la fenêtre pendant laquelle un défaut caché peut encore être prélevé.",tt:"7 jours écoulés depuis la validation"},
   {s:"Virement bancaire",ic:'🏦',d:"Exécuté sous deux jours sur le compte enregistré au nom du vendeur.",tag:['banque','auto'],n:"",tt:"demande enregistrée"},
   {s:"Facturation",ic:'🧾',d:"Facture de commission au vendeur, avec TVA. Récapitulatif trimestriel automatique de ses ventes. Facture à l'unité sur demande.",tag:['fisc','auto'],n:"Les factures que le vendeur doit à ses propres clients relèvent de son statut : les documents de la plateforme ne s'y substituent pas.",tt:"versement effectué"},
-  {s:"Points de badge",ic:'🏅',d:"Chaque projet réussi sur la plateforme crédite le maker de points. Traiter en direct n'en rapporte aucun.",tag:['auto'],n:"",tt:"projet mené à bien"}],branches:[]}
+  {s:"Points de badge",ic:'🏅',d:"Chaque projet réussi sur la plateforme crédite le maker de points. Un message resté sans réponse pendant 48 h lui en retire. Traiter en direct n'en rapporte aucun.",tag:['auto'],n:"Le badge se gagne sur les projets menés à bien et se perd sur le silence.",tt:"projet mené à bien"}],branches:[]}
 ];
 
 /* ── état persistant ── */

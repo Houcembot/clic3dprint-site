@@ -280,8 +280,8 @@ const J = [
       {s:'Paiement intégral sur la plateforme', ico:'💳', d:"100 % du prix. C'est ce qui rend la garantie possible : l'argent est détenu jusqu'à la validation.",
        tags:['banque','fisc']},
       {t:"paiement confirmé"},
-      {s:'Production', ico:'🖨️', d:"Le maker fabrique et rend compte de son avancement dans la messagerie. La somme reste détenue par la plateforme, 90 jours au maximum.",
-       tags:['fisc'], note:"Les échanges d'avancement font partie de la conversation conservée : ils servent aussi de preuve."},
+      {s:'Production', ico:'🖨️', d:"Le maker fabrique et rend compte de son avancement dans la messagerie. Il répond aux messages du demandeur sous 48 h — au-delà, un signal d'inactivité s'affiche et des points de confiance lui sont retirés. La somme reste détenue, 90 jours au maximum.",
+       tags:['fisc','contrat'], note:"Ce sont ces échanges, et eux seuls, qui prouveront que le travail a commencé : la négociation d'avant le paiement ne compte pas."},
       {t:"pièce prête"},
       {s:'Remise au demandeur', ico:'📦', d:"Un custom gig n'est pas forcément un objet : ce peut être un fichier 3D ou un STL. La remise diffère selon la nature du travail.",
        tags:['fisc'], note:"La plateforme n'encaisse jamais le transport : ni TVA à traiter, ni remboursement à gérer dessus."},
@@ -325,7 +325,7 @@ const J = [
       {or:'Issues possibles', branches:[
         {c:"pièce conforme à l'offre", o:"Validée", d:"Le maker reçoit 85 %. L'acheteur peut attribuer une note sur 5 malgré son insatisfaction."},
         {c:"pièce non conforme", o:"85 % remboursés", d:"L'acheteur garde la pièce — aucun retour n'est organisé. Le maker ne reçoit rien. La plateforme conserve 15 % au titre du service rendu."},
-        {c:"rien n'a été livré", o:"100 % remboursés", d:"Aucun service rendu : la plateforme ne conserve rien."},
+        {c:"aucun échange après le paiement, rien n'a commencé", o:"100 % remboursés", d:"Aucun service rendu : la plateforme ne conserve rien, commission comprise, et recommande un autre maker au demandeur."},
         {c:"double paiement, incident réseau", o:"100 % remboursés", d:"La solution de paiement de La Poste permet au marchand de rembourser lui-même."}
       ]},
       {t:"après la validation"},
@@ -421,8 +421,8 @@ const J = [
       {s:'Facturation', ico:'🧾', d:"Facture de commission au vendeur, avec TVA. Récapitulatif trimestriel automatique de ses ventes. Facture à l'unité sur demande.",
        tags:['fisc','auto'], note:"Les factures que le vendeur doit à ses propres clients relèvent de son statut : les documents de la plateforme ne s'y substituent pas."},
       {t:"projet mené à bien"},
-      {s:'Points de badge', ico:'🏅', d:"Chaque projet réussi sur la plateforme crédite le maker de points. Traiter en direct n'en rapporte aucun.",
-       tags:['auto']}
+      {s:'Points de badge', ico:'🏅', d:"Chaque projet réussi sur la plateforme crédite le maker de points. Un message resté sans réponse pendant 48 h lui en retire. Traiter en direct n'en rapporte aucun.",
+       tags:['auto'], note:"Le badge se gagne sur les projets menés à bien et se perd sur le silence."}
     ],
     obs:[
       ['Huit étapes, dont six automatiques',"Le maker n'accomplit que deux gestes : mettre en vente, puis demander son virement. Tout le reste se déroule sans lui."],
