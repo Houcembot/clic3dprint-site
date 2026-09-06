@@ -2,10 +2,10 @@
 
 Deux documents de travail, consultables directement dans le navigateur :
 
-- **[Parcours à valider](https://houcembot.github.io/clic3d-parcours/)** — les 7 parcours sur un plateau,
+- **[Parcours à valider](https://houcembot.github.io/clic3dprint-site/)** — les 7 parcours sur un plateau,
   validation étape par étape, commentaires et rapport exportable. L'avancement est conservé
   dans le navigateur qui sert à la revue.
-- **[Graphcet des parcours](https://houcembot.github.io/clic3d-parcours/graphcet.html)** — le même
+- **[Graphcet des parcours](https://houcembot.github.io/clic3dprint-site/graphcet.html)** — le même
   contenu en notation GRAFCET verticale, fait pour être imprimé.
 
 Documents de travail de Voxel Studio SUARL. Pages exclues des moteurs de recherche
