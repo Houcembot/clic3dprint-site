@@ -247,11 +247,11 @@ const J = [
       {s:'Mise à disposition du fichier', ico:'⬇️', d:"Téléchargement immédiat depuis l'espace client. Chaque téléchargement est journalisé.",
        tags:['auto']},
       {t:"fichier délivré"},
-      {s:'Empreinte SHA et horodatage', ico:'🔗', d:"L'empreinte du fichier est affichée : elle prouve l'intégrité et l'antériorité du contenu délivré.",
-       tags:['secu','legal'], note:"Ce n'est ni un dépôt légal ni un titre de propriété : c'est un moyen de preuve."},
-      {t:"livraison numérique achevée"},
-      {s:'Reçu et facture', ico:'📄', d:"Le reçu est envoyé au client. La commission de 15 % est facturée au designer ; son récapitulatif trimestriel la reprend.",
+      {s:'Reçu et notification', ico:'📄', d:"Le reçu rappelle l'usage autorisé, les limites de la licence et la garantie. Le designer est averti de la vente.",
        tags:['fisc','auto']},
+      {t:"reçu envoyé"},
+      {s:'Validation et note', ico:'⭐', d:"L'acheteur dispose de 7 jours pour valider le fichier ou ouvrir un ticket. Passé ce délai sans réclamation, la vente est validée d'office : le montant dû s'inscrit au tableau des ventes du designer et l'acheteur attribue sa note en étoiles.",
+       tags:['auto','legal'], note:"Sept jours et non trois : un défaut de fichier ne se révèle qu'au découpage ou à la première impression. La note ne porte que sur la qualité du design."},
       {or:'Après téléchargement', branches:[
         {c:"fichier conforme", o:"Vente validée", d:"Le droit de rétractation ne s'applique plus : l'acheteur y a renoncé avant de télécharger. La vente est close et notée."},
         {c:"non conforme aux images, ou défaut technique", o:"Ticket ouvert", d:"Ouvert dans les 7 jours, il suspend la validation et la plateforme examine le fichier.", go:"Réclamation sur un fichier"}
@@ -375,8 +375,12 @@ const J = [
     flow:[
       {s:'Création du compte', ico:'✍️', d:"Même parcours que l'acheteur : inscription, vérification, profil.", start:true},
       {t:"compte vérifié"},
-      {s:'Publication libre', ico:'📤', d:"Le maker peut déjà publier des fichiers, des gigs et répondre à des demandes. Aucun abonnement n'est demandé.",
-       note:"Optimisation retenue : le contrôle porte sur le versement, pas sur l'inscription. La plateforme reste peuplée."},
+      {s:'Publication et contrôle d\'empreinte', ico:'🔗', d:"Le maker publie fichiers et gigs sans abonnement. À chaque dépôt d'un STL, la plateforme calcule son empreinte SHA et la compare à celles déjà connues.",
+       tags:['secu','legal'], note:"C'est ici que sert l'empreinte : refuser un fichier déjà présent sur la plateforme."},
+      {or:'Au dépôt d\'un fichier', branches:[
+        {c:"l'empreinte est inconnue", o:"Publication acceptée", d:"Le fichier est unique. L'empreinte et son horodatage sont conservés comme preuve d'antériorité.", next:3},
+        {c:"l'empreinte existe déjà", o:"Dépôt refusé", d:"Le fichier est déjà présent sur la plateforme : il est signalé comme non authentique et n'est pas publié."}
+      ]},
       {t:"une première vente approche"},
       {s:'Déclaration du statut', ico:'🏛️', d:"Auto-entrepreneur au statut Mubadarati, ou société. Le choix détermine le contrat et le régime de TVA.",
        tags:['fisc'], note:"Un auto-entrepreneur est immatriculé mais non assujetti à la TVA sous 75 000 DT. Matricule fiscal n'égale pas assujetti."},
