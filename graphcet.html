@@ -253,12 +253,12 @@ const J = [
       {s:'Reçu et facture', ico:'📄', d:"Le reçu est envoyé au client. La commission de 15 % est facturée au designer ; son récapitulatif trimestriel la reprend.",
        tags:['fisc','auto']},
       {or:'Après téléchargement', branches:[
-        {c:"fichier conforme", o:"Aucune rétractation", d:"Le droit de rétractation ne s'applique plus : l'acheteur y a renoncé expressément avant de télécharger."},
-        {c:"non conforme aux images, ou défaut technique", o:"Réclamation ouverte", d:"Un ticket est ouvert et la plateforme examine le fichier.", go:"Réclamation sur un fichier"}
+        {c:"fichier conforme", o:"Vente validée", d:"Le droit de rétractation ne s'applique plus : l'acheteur y a renoncé avant de télécharger. La vente est close et notée."},
+        {c:"non conforme aux images, ou défaut technique", o:"Ticket ouvert", d:"Ouvert dans les 7 jours, il suspend la validation et la plateforme examine le fichier.", go:"Réclamation sur un fichier"}
       ]}
     ],
     obs:[
-      ['Sept étapes, dont trois automatiques',"L'acheteur n'en accomplit que quatre. Le reste — vérification du paiement, mise à disposition, reçu — se fait sans lui."],
+      ['Huit étapes, dont quatre automatiques',"L'acheteur n'en accomplit que quatre. Le reste — vérification du paiement, mise à disposition, reçu, validation d'office — se fait sans lui."],
       ['La séquence à ne pas inverser',"Vérification serveur à serveur avant mise à disposition. Livrer d'abord et vérifier ensuite, c'est offrir le fichier à qui abandonne le paiement."]
     ]
   },
@@ -286,12 +286,12 @@ const J = [
       {s:'Remise au demandeur', ico:'📦', d:"Un custom gig n'est pas forcément un objet : ce peut être un fichier 3D ou un STL. La remise diffère selon la nature du travail.",
        tags:['fisc'], note:"La plateforme n'encaisse jamais le transport : ni TVA à traiter, ni remboursement à gérer dessus."},
       {or:'Selon la nature du gig', branches:[
-        {c:"le livrable est un fichier", o:"Dépôt sur la plateforme", d:"Le maker dépose le fichier par un bouton dédié qui gèle immédiatement le temps de production. Un e-mail avertit le demandeur que le fichier est consultable.", next:8},
-        {c:"le livrable est un objet imprimé", o:"Expédition ou retrait", d:"Transporteur — 8 DT partout en Tunisie, 48 h, réglés directement au transporteur — ou retrait sur place, gratuit. C'est le demandeur qui choisit.", next:8}
+        {c:"le livrable est un fichier", o:"Dépôt sur la plateforme", d:"Le maker dépose le fichier par un bouton dédié qui gèle le temps de production. Un e-mail avertit le demandeur, qui dispose de 7 jours pour valider.", next:8},
+        {c:"le livrable est un objet imprimé", o:"Expédition ou retrait", d:"Transporteur — 8 DT partout en Tunisie, 48 h — ou retrait sur place, gratuit. Le demandeur dispose ensuite de 3 jours pour valider.", next:8}
       ]},
       {t:"fichier déposé, ou livraison confirmée"},
-      {s:'Validation par l\'acheteur', ico:'✅', d:"Trois jours pour valider ou demander une correction, avec deux relances. Sans réponse, la commande est validée d'office. Si une correction est demandée, le maker est notifié et peut solliciter une rallonge de délai, que le demandeur doit approuver.",
-       tags:['auto','contrat'], note:"Le même délai de 3 jours s'applique au fichier déposé comme à l'objet livré."},
+      {s:'Validation par l\'acheteur', ico:'✅', d:"Sept jours pour un fichier, trois pour un objet, avec deux relances. Sans réponse, la commande est validée d'office. Si une correction est demandée, le maker est notifié et peut solliciter une rallonge de délai, que le demandeur doit approuver.",
+       tags:['auto','contrat'], note:"La rallonge n'existe que sur un custom gig : c'est un travail négocié, il se discute. Une vente au catalogue était vendue en l'état."},
       {or:'À la validation', branches:[
         {c:"conforme", o:"Commande close", d:"Le montant dû est inscrit au tableau des ventes du maker. L'acheteur attribue une note sur 5, et le maker évalue l'acheteur en retour."},
         {c:"contestée", o:"Réclamation", d:"La validation automatique est suspendue et l'instruction commence.", go:"Réclamer un remboursement"}
@@ -343,17 +343,17 @@ const J = [
     lede:"Ce que devient une réclamation sur un fichier STL : un ticket, un examen par la plateforme, puis soit une correction du designer, soit un remboursement.",
     flow:[
       {s:'Ouverture d\'un ticket', ico:'🎫', d:"L'acheteur signale que le fichier ne correspond pas aux images de la fiche, ou qu'il présente un défaut technique le rendant inutilisable. Il joint une capture ou une description.",
-       tags:['legal'], start:true, note:"Délai proposé : 7 jours après le téléchargement — à confirmer. Un défaut ne se voit souvent qu'au découpage ou à la première impression."},
+       tags:['legal'], start:true, note:"Sept jours après le téléchargement — la durée même de la fenêtre de validation. Le ticket la suspend."},
       {t:"ticket ouvert"},
       {s:'Examen par la plateforme', ico:'🔬', d:"L'administrateur compare le fichier livré aux images et à la description de la fiche produit. Le designer est informé et peut répondre.",
-       tags:['legal','contrat'], note:"Délai proposé : 3 jours ouvrés — aligné sur le délai de réponse du vendeur dans l'arbitrage des custom gigs."},
+       tags:['legal','contrat'], note:"Trois jours ouvrés."},
       {or:'À l\'examen', branches:[
         {c:"le fichier correspond aux images", o:"Vente maintenue", d:"Aucun remboursement. L'acheteur peut publier son ressenti sur la fiche du designer : une note sur 5 et un commentaire visibles publiquement."},
         {c:"le fichier ne correspond pas, ou défaut technique", o:"Correction exigée", d:"Le designer doit livrer un fichier corrigé dans le délai.", next:3}
       ]},
       {t:"non-conformité retenue"},
       {s:'Correction par le designer', ico:'🛠️', d:"Le designer dépose un fichier corrigé. L'acheteur en est averti et le télécharge sans payer de nouveau.",
-       tags:['contrat'], note:"Délai proposé : 7 jours — à confirmer. Au-delà, le ticket bascule automatiquement vers le remboursement."},
+       tags:['contrat'], note:"Sept jours, non extensibles sur une vente au catalogue : le fichier était vendu en l'état. Seul un custom gig ouvre droit à une rallonge négociée."},
       {t:"fichier corrigé déposé, ou délai écoulé"},
       {s:'Contrôle du fichier corrigé', ico:'✅', d:"La plateforme vérifie que la correction répond au problème signalé, puis clôt le ticket.",
        tags:['legal','auto']},
@@ -366,7 +366,7 @@ const J = [
     obs:[
       ['Une réclamation n\'est plus un cul-de-sac',"Chaque issue de la branche « après téléchargement » débouche désormais sur des étapes datées, avec un responsable et un délai."],
       ['La correction avant le remboursement',"Le designer a une chance de réparer. C'est ce qui évite de transformer chaque défaut en perte sèche pour lui, et en litige pour la plateforme."],
-      ['Trois délais à confirmer',"7 jours pour signaler, 3 jours ouvrés pour examiner, 7 jours pour corriger. Ce sont des propositions, pas des décisions.",'warn']
+      ['Les trois délais sont arrêtés',"7 jours pour ouvrir le ticket — la fenêtre de validation elle-même — 3 jours ouvrés pour examiner, 7 jours pour corriger sans rallonge possible."]
     ]
   },
   {
