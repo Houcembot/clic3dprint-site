@@ -280,7 +280,7 @@ const J = [
       {s:'Paiement intégral sur la plateforme', ico:'💳', d:"100 % du prix. C'est ce qui rend la garantie possible : l'argent est détenu jusqu'à la validation.",
        tags:['banque','fisc']},
       {t:"paiement confirmé"},
-      {s:'Production', ico:'🖨️', d:"Le maker fabrique et rend compte de son avancement dans la messagerie. Il répond aux messages du demandeur sous 48 h — au-delà, un signal d'inactivité s'affiche et des points de confiance lui sont retirés. La somme reste détenue, 90 jours au maximum.",
+      {s:'Production', ico:'🖨️', d:"Le maker fabrique et rend compte de son avancement dans la messagerie. Le demandeur peut réclamer un point d'avancement par un bouton dédié : sans réponse sous 48 h calendaires, un signal s'affiche et la note de communication perd un point, puis un autre tous les 3 jours de silence. La somme reste détenue, 90 jours au maximum.",
        tags:['fisc','contrat'], note:"Ce sont ces échanges, et eux seuls, qui prouveront que le travail a commencé : la négociation d'avant le paiement ne compte pas."},
       {t:"pièce prête"},
       {s:'Remise au demandeur', ico:'📦', d:"Un custom gig n'est pas forcément un objet : ce peut être un fichier 3D ou un STL. La remise diffère selon la nature du travail.",
@@ -421,8 +421,8 @@ const J = [
       {s:'Facturation', ico:'🧾', d:"Facture de commission au vendeur, avec TVA. Récapitulatif trimestriel automatique de ses ventes. Facture à l'unité sur demande.",
        tags:['fisc','auto'], note:"Les factures que le vendeur doit à ses propres clients relèvent de son statut : les documents de la plateforme ne s'y substituent pas."},
       {t:"projet mené à bien"},
-      {s:'Points de badge', ico:'🏅', d:"Chaque projet réussi sur la plateforme crédite le maker de points. Un message resté sans réponse pendant 48 h lui en retire. Traiter en direct n'en rapporte aucun.",
-       tags:['auto'], note:"Le badge se gagne sur les projets menés à bien et se perd sur le silence."}
+      {s:'Notation et points', ico:'🏅', d:"Le demandeur note sur trois critères — design, impression, communication — chacun sur 5 étoiles, avec un commentaire public auquel le maker a droit de répondre une fois. Seuls les critères applicables sont proposés.",
+       tags:['auto','legal'], note:"Une étoile vaut 20 points. Le score en points reste interne : il sert au classement et aux badges, jamais affiché. Public : les étoiles, le commentaire et les mentions."}
     ],
     obs:[
       ['Huit étapes, dont six automatiques',"Le maker n'accomplit que deux gestes : mettre en vente, puis demander son virement. Tout le reste se déroule sans lui."],
