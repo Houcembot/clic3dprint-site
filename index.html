@@ -22,6 +22,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 h1{font-size:17px;font-weight:900;letter-spacing:-.3px;white-space:nowrap}
 h1 .a{color:var(--brand)}
 .sub{font-size:11.5px;color:var(--muted)}
+.stamp{font-size:10.5px;font-weight:800;color:var(--muted);border:1.5px solid var(--line);
+       border-radius:20px;padding:4px 11px;white-space:nowrap;background:#fff}
 
 .prog{display:flex;align-items:center;gap:10px;margin-left:auto}
 .bar{width:190px;height:9px;border-radius:20px;background:#dfe8df;overflow:hidden}
@@ -187,6 +189,7 @@ textarea:focus{outline:none;border-color:var(--brand)}
   <div class="top-row">
     <h1>clic<span class="a">3d</span>.tn <span style="font-weight:600;font-size:13px">— parcours à valider</span></h1>
     <span class="sub">Clique une étape pour l'examiner et la valider.</span>
+    <span class="stamp" id="stamp"></span>
     <div class="prog">
       <div class="bar"><i id="pbar"></i></div>
       <b id="ptxt">0 / 0</b>
@@ -554,6 +557,8 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='q'||e.key==='Q') setState('q');
 });
 
+const VERSION='8 septembre 2026';
+document.getElementById('stamp').textContent='version du '+VERSION+' · '+FLAT.length+' étapes';
 build();
 </script>
 </body>
